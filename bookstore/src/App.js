@@ -5,6 +5,7 @@ import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import AddBook from './AddBook';
 import './App.css';
 
 function App() {
@@ -21,6 +22,16 @@ function App() {
     .catch(err => console.error(err))
   }
 
+  const addBook = (newBook) => {
+    fetch('https://bookstore-53b08-default-rtdb.europe-west1.firebasedatabase.app/books/.json',
+    {
+      method: 'POST',
+      body: JSON.stringify(newBook)
+    })
+    .then(response => fetchItems())
+    .catch(err => console.error(err))
+  }
+
   return (
     <div className="App">
       <AppBar position="static">
@@ -31,6 +42,7 @@ function App() {
         </Toolbar>
       </AppBar> 
       <p></p>
+      <AddBook addBook={addBook}/> 
       <div className="ag-theme-material" style={ { height: 600, width: 1000, margin: 'auto' } }>
         <AgGridReact rowData={books}>
           <AgGridColumn sortable={true} filter={true} field='author' />
